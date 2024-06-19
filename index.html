@@ -1,0 +1,135 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebSocket Chat</title>
+<script>
+    // Function to establish WebSocket connection
+    function connectWebSocket() {
+        // Create a new WebSocket connection
+        const socket = new WebSocket('ws://localhost:8000/ws/chat/');
+
+        // Event handler for successful connection
+        socket.onopen = function(event) {
+            console.log('WebSocket connection established.');
+        };
+
+        // Event handler for receiving messages
+        socket.onmessage = function(event) {
+            console.log('Received message:', event.data);
+            // Display the received message on the webpage
+            appendMessage(event.data);
+        };
+
+        // Event handler for errors
+        socket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
+
+        // Event handler for closing connection
+        socket.onclose = function(event) {
+            console.log('WebSocket connection closed.');
+        };
+
+        // Function to send a message via WebSocket
+        function sendMessage(message) {
+            socket.send(JSON.stringify({ message: message }));
+            console.log('Message sent:', message);
+        }
+
+        // Example usage: sending a message when a button is clicked
+        document.getElementById('send-button').addEventListener('click', function() {
+            const message = document.getElementById('message-input').value;
+            sendMessage(message);
+        });
+    }
+
+    // Function to append a message to the chat area
+    function appendMessage(message) {
+        const chatArea = document.getElementById('chat-area');
+        const messageElement = document.createElement('div');
+        messageElement.textContent = message;
+        chatArea.appendChild(messageElement);
+    }
+
+    // Call the connectWebSocket function when the page loads
+    window.onload = connectWebSocket;
+</script>
+</head>
+<body>
+<h1>WebSocket Chat</h1>
+<div id="chat-area" style="height: 200px; overflow-y: scroll;"></div>
+<input type="text" id="message-input" placeholder="Enter your message">
+<button id="send-button">Send</button>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat</title>
+</head>
+<body>
+    <h1>WebSocket Chat</h1>
+    <div id="chat-messages"></div>
+    <input type="text" id="message-input" placeholder="Enter your message">
+    <button id="send-button">Send</button>
+
+    <script>
+        // Function to establish WebSocket connection
+        function connectWebSocket() {
+            // Create a new WebSocket connection
+            const socket = new WebSocket('ws://localhost:8000/ws/chat/');
+
+            // Event handler for successful connection
+            socket.onopen = function(event) {
+                console.log('WebSocket connection established.');
+            };
+
+            // Event handler for receiving messages
+            socket.onmessage = function(event) {
+                console.log('Received message:', event.data);
+                // Display the received message on the webpage
+                appendMessage(event.data);
+            };
+
+            // Event handler for errors
+            socket.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+
+            // Event handler for closing connection
+            socket.onclose = function(event) {
+                console.log('WebSocket connection closed.');
+            };
+
+            // Function to send a message via WebSocket
+            function sendMessage(message) {
+                socket.send(JSON.stringify({ message: message }));
+                console.log('Message sent:', message);
+            }
+
+            // Example usage: sending a message when a button is clicked
+            document.getElementById('send-button').addEventListener('click', function() {
+                const message = document.getElementById('message-input').value;
+                sendMessage(message);
+            });
+        }
+
+        // Function to append a message to the chat area
+        function appendMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+        }
+
+        // Call the connectWebSocket function when the page loads
+        window.onload = connectWebSocket;
+    </script>
+</body>
+</html>

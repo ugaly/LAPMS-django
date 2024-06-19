@@ -1,0 +1,363 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Customer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        #form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="form-container">
+        <h2>Create Customer</h2>
+        <input type="text" id="fullName" placeholder="Full Name">
+        <input type="text" id="phoneNumber" placeholder="Phone Number">
+        <input type="text" id="location" placeholder="Location">
+        <button onclick="createCustomer()">Create</button>
+    </div>
+
+    <script>
+        const socket = new WebSocket('ws://localhost:8000/ws/customers/');
+
+        socket.onopen = function(event) {
+            console.log('WebSocket connection established.');
+        };
+
+        socket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
+
+        function createCustomer() {
+            const fullName = document.getElementById('fullName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const location = document.getElementById('location').value;
+
+            const data = {
+                command: 'create',
+                full_name: fullName,
+                phone_number: phoneNumber,
+                location: location
+            };
+
+            socket.send(JSON.stringify(data));
+        }
+    </script>
+</body>
+</html>
+ -->
+
+
+
+
+<!--  
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Create Customer</title>
+     <style>
+         body {
+             font-family: Arial, sans-serif;
+             margin: 0;
+             padding: 0;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             background-color: #f5f5f5;
+         }
+         #form-container {
+             background-color: #fff;
+             padding: 20px;
+             border-radius: 5px;
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+             margin-bottom: 20px;
+         }
+         input[type="text"] {
+             width: 100%;
+             padding: 10px;
+             margin-bottom: 10px;
+             border: 1px solid #ccc;
+             border-radius: 4px;
+             box-sizing: border-box;
+         }
+         button {
+             background-color: #007bff;
+             color: #fff;
+             padding: 10px 20px;
+             border: none;
+             border-radius: 4px;
+             cursor: pointer;
+         }
+         table {
+             width: 80%;
+             border-collapse: collapse;
+         }
+         th, td {
+             padding: 8px;
+             text-align: left;
+             border-bottom: 1px solid #ddd;
+         }
+         th {
+             background-color: #f2f2f2;
+         }
+     </style>
+ </head>
+ <body>
+     <div id="form-container">
+         <h2>Create Customer</h2>
+         <input type="text" id="fullName" placeholder="Full Name">
+         <input type="text" id="phoneNumber" placeholder="Phone Number">
+         <input type="text" id="location" placeholder="Location">
+         <button onclick="createCustomer()">Create</button>
+     </div>
+ 
+     <table id="customer-table">
+         <thead>
+             <tr>
+                 <th>ID</th>
+                 <th>Full Name</th>
+                 <th>Phone Number</th>
+                 <th>Location</th>
+             </tr>
+         </thead>
+         <tbody>
+
+        </tbody>
+     </table>
+ 
+     <script>
+         const socket = new WebSocket('ws://localhost:8000/ws/customers/');
+ 
+         socket.onopen = function(event) {
+             console.log('WebSocket connection established.');
+             // Request initial customer data when WebSocket connection is established
+             socket.send(JSON.stringify({ command: 'fetch_all' }));
+         };
+ 
+         socket.onerror = function(error) {
+             console.error('WebSocket error:', error);
+         };
+ 
+         socket.onmessage = function(event) {
+             const data = JSON.parse(event.data);
+             if (data.command === 'create') {
+                 const customer = data.customer;
+                 addCustomerToTable(customer);
+             } else if (data.command === 'fetch_all') {
+                 const customers = data.customers;
+                 customers.forEach(customer => {
+                     addCustomerToTable(customer);
+                 });
+             }
+         };
+ 
+         function createCustomer() {
+             const fullName = document.getElementById('fullName').value;
+             const phoneNumber = document.getElementById('phoneNumber').value;
+             const location = document.getElementById('location').value;
+ 
+             const data = {
+                 command: 'create',
+                 full_name: fullName,
+                 phone_number: phoneNumber,
+                 location: location
+             };
+ 
+             socket.send(JSON.stringify(data));
+         }
+ 
+         function addCustomerToTable(customer) {
+             const tableBody = document.getElementById('customer-table').getElementsByTagName('tbody')[0];
+             const newRow = tableBody.insertRow();
+             newRow.innerHTML = `
+                 <td>${customer.id}</td>
+                 <td>${customer.full_name}</td>
+                 <td>${customer.phone_number}</td>
+                 <td>${customer.location}</td>
+             `;
+         }
+     </script>
+ </body>
+ </html>
+  -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Customer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+
+        #form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="form-container">
+        <h2>Create Customer</h2>
+        <input type="text" id="fullName" placeholder="Full Name">
+        <input type="text" id="phoneNumber" placeholder="Phone Number">
+        <input type="text" id="location" placeholder="Location">
+        <button id="createButton">Create</button>
+    </div>
+
+    <table id="customer-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script>
+        const socket = new WebSocket('ws://localhost:8000/ws/customers/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyOTc5MDMwLCJpYXQiOjE3MTQzMzkwMzAsImp0aSI6IjE3NmZlNThkNjY4MzQwM2NhMjA1M2ZkZjllNGFkYWRkIiwidXNlcl9pZCI6MX0.WzDodv0B0w1J-BUCx3HdOlYIuOib9dgRND0-4VKFevY');
+
+        socket.onopen = function (event) {
+            console.log('WebSocket connection established.');
+            // Request initial customer data when WebSocket connection is established
+            socket.send(JSON.stringify({ command: 'fetch_all' }));
+        };
+
+        socket.onerror = function (error) {
+            console.error('WebSocket error:', error);
+        };
+
+        document.getElementById('createButton').addEventListener('click', createCustomer);
+
+        socket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            if (data.command === 'create') {
+                addCustomerToTable(data.customer);
+            } else if (data.command === 'fetch_all') {
+                const customers = data.customers;
+                const tbody = document.getElementById('customer-table').getElementsByTagName('tbody')[0];
+                tbody.innerHTML = ''; // Clear existing rows
+                customers.forEach(customer => {
+                    addCustomerToTable(customer);
+                });
+            }
+        };
+
+        function createCustomer() {
+            const fullName = document.getElementById('fullName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const location = document.getElementById('location').value;
+
+            const data = {
+                command: 'create',
+                full_name: fullName,
+                phone_number: phoneNumber,
+                location: location
+            };
+
+            socket.send(JSON.stringify(data));
+        }
+
+        function addCustomerToTable(customer) {
+            const tableBody = document.getElementById('customer-table').getElementsByTagName('tbody')[0];
+            const newRow = tableBody.insertRow();
+            newRow.innerHTML = `
+                <td>${customer.id}</td>
+                <td>${customer.full_name}</td>
+                <td>${customer.phone_number}</td>
+                <td>${customer.location}</td>
+            `;
+        }
+
+        document.getElementById('createButton').addEventListener('click', createCustomer);
+    </script>
+</body>
+
+</html>
